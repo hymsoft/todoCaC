@@ -1,21 +1,4 @@
 let tasks = [];
-tasks = [
-  {
-    id: Date.now(),
-    text: "Tarea 1",
-    complete: false,
-  },
-  {
-    id: Date.now(),
-    text: "Tarea 2",
-    complete: false,
-  },
-  {
-    id: Date.now(),
-    text: "Tarea 3",
-    complete: false,
-  },
-];
 let editing = false;
 // Captura del DOM
 let inputText = document.getElementById("input-text");
@@ -38,7 +21,7 @@ function save() {
       tasks.push(newTaskObj);
     }
   }
-
+  saveData();
   cleanInput();
   viewDataByConsole(tasks);
 }
@@ -55,4 +38,8 @@ function viewDataByConsole(data) {
 function existTaskByText(text) {
   const findTask = tasks.find((task) => task.text === text);
   return !(findTask === undefined);
+}
+
+function saveData() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 }
