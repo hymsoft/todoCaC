@@ -1,5 +1,6 @@
 let tasks = [];
 let editing = false;
+let actualIndex = undefined;
 // Captura del DOM
 let inputText = document.getElementById("input-text");
 let btnSave = document.getElementById("btn-save");
@@ -8,13 +9,21 @@ let tasksBody = document.querySelector("tbody");
 btnSave.addEventListener("click", () => save());
 document.addEventListener("click", (e) => {
   if (e.target.classList.contains("btn__to-complete")) {
-    completeTask(e.target.dataset.todoid);
+    let taskID = e.target.dataset.todoid;
+    completeTask(taskID);
   }
   if (e.target.id == "btn__delete") {
-    deleteTask(e.target.dataset.todoid);
+    // Aca accedo al elemento, despues al padre de ese elemento, despues al primer hijo de ese padre (que es el boton donde guardo el id) y extraigo el id
+    let taskID = e.target.parentNode.firstElementChild.dataset.todoid;
+    deleteTask(taskID);
   }
-  //   console.log(e.target.id.contains("hugo"));
+  if (e.target.id == "btn__edit") {
+    // Aca accedo al elemento, despues al padre de ese elemento, despues al primer hijo de ese padre (que es el boton donde guardo el id) y extraigo el id
+    let taskID = e.target.parentNode.firstElementChild.dataset.todoid;
+    editTask(taskID);
+  }
 });
+
 document.addEventListener("DOMContentLoaded", () => {
   loadData();
   renderTasks();
@@ -24,6 +33,11 @@ function save() {
   if (inputText.value.length == 0) {
   } else {
     if (editing) {
+      if (existTaskByText(inputText.value)) {
+        console.log("Ya existe esa tarea");
+      } else {
+        tasks[actualIndex].text = inputText.value;
+      }
     } else {
       if (existTaskByText(inputText.value)) {
         console.log("Ya existe esa tarea");
@@ -48,15 +62,21 @@ function cleanInput() {
 }
 
 function completeTask(id) {
-  let searchId = findTaskById(id);
-  tasks[searchId].complete = !tasks[searchId].complete;
+  actualIndex = findTaskById(id);
+  tasks[actualIndex].complete = !tasks[actualIndex].complete;
   saveData();
   renderTasks();
 }
 
+function editTask(id) {
+  actualIndex = findTaskById(id);
+  inputText.value = tasks[actualIndex].text;
+  editing = true;
+}
+
 function deleteTask(id) {
-  let searchId = findTaskById(id);
-  tasks.splice(searchId, 1);
+  actualIndex = findTaskById(id);
+  tasks.splice(actualIndex, 1);
   saveData();
   renderTasks();
 }
@@ -82,8 +102,8 @@ function renderTasks() {
               <button data-todoID="${
                 task.id
               }" class="btn__to-complete">Completar</button>
-              <button>Editar</button>
-              <button data-todoID="${task.id}" id="btn__delete">Borrar</button>
+              <button id="btn__edit">Editar</button>
+              <button id="btn__delete">Borrar</button>
             </td>
         </tr>`)
   );
