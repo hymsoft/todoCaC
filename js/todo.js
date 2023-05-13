@@ -6,24 +6,36 @@ let btnSave = document.getElementById("btn-save");
 let tasksBody = document.querySelector("tbody");
 // Eventos
 btnSave.addEventListener("click", () => save());
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("btn__to-complete")) {
+    completeTask(e.target.dataset.todoid);
+  }
+});
+document.addEventListener("DOMContentLoaded", () => {
+  loadData();
+  renderTasks();
+});
 
 function save() {
-  if (editing) {
+  if (inputText.value.length == 0) {
   } else {
-    if (existTaskByText(inputText.value)) {
-      console.log("Ya existe esa tarea");
+    if (editing) {
     } else {
-      const newTaskObj = {
-        id: Date.now(),
-        text: inputText.value,
-        complete: false,
-      };
-      tasks.push(newTaskObj);
+      if (existTaskByText(inputText.value)) {
+        console.log("Ya existe esa tarea");
+      } else {
+        const newTaskObj = {
+          id: Date.now(),
+          text: inputText.value,
+          complete: false,
+        };
+        tasks.push(newTaskObj);
+      }
     }
+    saveData();
+    cleanInput();
+    renderTasks();
   }
-  saveData();
-  cleanInput();
-  renderTasks();
 }
 
 function cleanInput() {
@@ -31,13 +43,20 @@ function cleanInput() {
   editing = false;
 }
 
-function viewDataByConsole(data) {
-  console.log(data);
+function completeTask(id) {
+  let searchId = findTaskById(id);
+  tasks[searchId].complete = !tasks[searchId].complete;
+  saveData();
+  renderTasks();
 }
 
 function existTaskByText(text) {
   const findTask = tasks.find((task) => task.text === text);
   return !(findTask === undefined);
+}
+
+function findTaskById(id) {
+  return tasks.findIndex((task) => task.id === parseInt(id));
 }
 
 function renderTasks() {
@@ -46,9 +65,12 @@ function renderTasks() {
     (task) =>
       (tasksBody.innerHTML += `
         <tr class="task">
-            <td>${task.text}</td>
+        <td class="${task.complete ? "complete" : ""}">${task.text}</td>
+            
             <td>
-              <button>Completar</button>
+              <button data-todoID="${
+                task.id
+              }" class="btn__to-complete">Completar</button>
               <button>Editar</button>
               <button>Borrar</button>
             </td>
@@ -63,6 +85,3 @@ function saveData() {
 function loadData() {
   tasks = JSON.parse(localStorage.getItem("tasks") || []);
 }
-
-loadData();
-renderTasks();
