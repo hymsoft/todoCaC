@@ -10,6 +10,10 @@ document.addEventListener("click", (e) => {
   if (e.target.classList.contains("btn__to-complete")) {
     completeTask(e.target.dataset.todoid);
   }
+  if (e.target.id == "btn__delete") {
+    deleteTask(e.target.dataset.todoid);
+  }
+  //   console.log(e.target.id.contains("hugo"));
 });
 document.addEventListener("DOMContentLoaded", () => {
   loadData();
@@ -50,6 +54,13 @@ function completeTask(id) {
   renderTasks();
 }
 
+function deleteTask(id) {
+  let searchId = findTaskById(id);
+  tasks.splice(searchId, 1);
+  saveData();
+  renderTasks();
+}
+
 function existTaskByText(text) {
   const findTask = tasks.find((task) => task.text === text);
   return !(findTask === undefined);
@@ -72,7 +83,7 @@ function renderTasks() {
                 task.id
               }" class="btn__to-complete">Completar</button>
               <button>Editar</button>
-              <button>Borrar</button>
+              <button data-todoID="${task.id}" id="btn__delete">Borrar</button>
             </td>
         </tr>`)
   );
