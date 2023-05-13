@@ -3,7 +3,7 @@ let editing = false;
 // Captura del DOM
 let inputText = document.getElementById("input-text");
 let btnSave = document.getElementById("btn-save");
-
+let tasksBody = document.querySelector("tbody");
 // Eventos
 btnSave.addEventListener("click", () => save());
 
@@ -23,7 +23,7 @@ function save() {
   }
   saveData();
   cleanInput();
-  viewDataByConsole(tasks);
+  renderTasks();
 }
 
 function cleanInput() {
@@ -40,6 +40,29 @@ function existTaskByText(text) {
   return !(findTask === undefined);
 }
 
+function renderTasks() {
+  tasksBody.innerHTML = "";
+  tasks.forEach(
+    (task) =>
+      (tasksBody.innerHTML += `
+        <tr class="task">
+            <td>${task.text}</td>
+            <td>
+              <button>Completar</button>
+              <button>Editar</button>
+              <button>Borrar</button>
+            </td>
+        </tr>`)
+  );
+}
+
 function saveData() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
+
+function loadData() {
+  tasks = JSON.parse(localStorage.getItem("tasks") || []);
+}
+
+loadData();
+renderTasks();
