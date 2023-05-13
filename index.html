@@ -5,15 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CaC Lista de tareas</title>
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/todo.css" />
   </head>
   <body>
     <main>
       <h1>Tareas</h1>
       <section id="input">
         <input type="text" name="input__text" id="input-text" />
-        <button type="submit" class="btn__guardar" id="btn-guardar">
-          Guardar
-        </button>
+        <button class="btn__save" id="btn-save">Guardar</button>
         <hr />
       </section>
       <section id="tasks__container">
@@ -37,5 +37,6 @@
         </table>
       </section>
     </main>
+    <script src="./js/todo.js"></script>
   </body>
 </html>
