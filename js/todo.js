@@ -32,6 +32,7 @@ const motivationaltext = [
     author: "Simon Sinek",
   },
 ];
+
 let tasks = [];
 let editing = false;
 let actualIndex = undefined;
@@ -177,6 +178,8 @@ function saveData() {
 
 function loadData() {
   tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+  let actualTheme = localStorage.getItem("theme") || "light";
+  actualTheme === "light" ? lightTheme() : darkTheme();
 }
 
 function cleanInput() {
@@ -196,7 +199,7 @@ function orderByTaskAsc() {
   });
 }
 
-function createToast(titulo, mensaje) {
+const createToast = (titulo, mensaje) => {
   // Crear el elemento HTML del toast
   const toastElement = document.createElement("div");
   toastElement.classList.add("toast");
@@ -227,8 +230,26 @@ function createToast(titulo, mensaje) {
     myToast.hide();
     toastElement.remove();
   }, 5000);
-}
+};
 
-function randomNumberBetween(minValue, maxValue) {
+const randomNumberBetween = (minValue, maxValue) => {
   return Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
-}
+};
+
+const darkTheme = () => {
+  document.querySelector("body").setAttribute("data-bs-theme", "dark");
+  document.querySelector("#dl-icon").setAttribute("class", "bi bi-sun-fill");
+};
+const lightTheme = () => {
+  document.querySelector("body").setAttribute("data-bs-theme", "light");
+  document.querySelector("#dl-icon").setAttribute("class", "bi bi-moon-fill");
+};
+const changeTheme = () => {
+  document.querySelector("body").getAttribute("data-bs-theme") === "light"
+    ? darkTheme()
+    : lightTheme();
+  localStorage.setItem(
+    "theme",
+    document.querySelector("body").getAttribute("data-bs-theme")
+  );
+};

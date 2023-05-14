@@ -3,8 +3,14 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
+
 footer {
-  padding: 1em 0;
-  text-align: center;
+  /* padding: 1em 0; */
+  /* text-align: center; */
   margin-top: auto;
+}
+
+.bi {
+  vertical-align: -0.125em;
+  fill: currentColor;
 }
