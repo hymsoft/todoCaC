@@ -87,8 +87,12 @@ function renderTasks() {
               <td>
                 <button data-todoID="${
                   task.id
-                }" class="btn__to-completeTask">Completar</button>
-                <button id="btn__edit">Editar</button>
+                }" class="btn__to-completeTask"> ${
+        task.complete ? "Reactivar" : "Completar"
+      }</button>
+                <button id="btn__edit" ${
+                  task.complete ? "disabled" : ""
+                }>Editar</button>
                 <button id="btn__delete">Borrar</button>
               </td>
           </tr>`)
