@@ -1,7 +1,7 @@
 # Administrador de tareas
 
 Este proyecto es un administrador de tareas simple que te permite crear, editar, completar y eliminar tareas. También incluye citas motivacionales para mantenerte inspirado.
-Es un proyecto pequeño, para poner el práctica lo aprendido en el curos FullStack NodeJS de Codo a Codo(2023).
+Es un proyecto pequeño, para poner en práctica lo aprendido en el curso FullStack NodeJS de Codo a Codo(2023), dictado por el profesor Jean Paul Ferreira.
 
 ## Uso
 
