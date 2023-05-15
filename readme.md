@@ -19,7 +19,7 @@ El administrador de tareas incluye una selección de citas motivacionales para i
 
 - Ordenamiento de tareas: Las tareas se ordenan alfabéticamente de forma ascendente.
 - Mensajes emergentes: Se muestran mensajes de error y confirmación utilizando mensajes emergentes en la interfaz.
-- Cambio de tema: Puedes alternar entre temas de luz y oscuro haciendo clic en el ícono correspondiente.
+- Cambio de tema: Puedes alternar entre temas de claro y oscuro haciendo clic en el ícono correspondiente.
 
 ## Configuración y personalización
 
