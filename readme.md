@@ -178,6 +178,9 @@ Encuentra una tarea por su ID en la lista de tareas.
 - Compara el ID de cada tarea con el ID proporcionado utilizando `task.id === parseInt(id)`.
 - Devuelve el índice de la tarea encontrada en la lista de tareas.
 
+### Valor de retorno
+- El índice de la tarea encontrada en la lista, o -1 si no se encuentra.
+
 #
 
 ## Función `saveData()`
