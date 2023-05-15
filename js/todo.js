@@ -56,6 +56,12 @@ inputText.addEventListener("input", () => {
   }
 });
 
+/**
+ * Guarda una tarea en la lista de tareas.
+ * Si se está editando una tarea existente, se actualiza su texto.
+ * Si se está creando una nueva tarea, se agrega a la lista de tareas.
+ * Finalmente, se guarda la lista de tareas, se limpia el campo de entrada y se muestra la lista actualizada.
+ */
 function saveTask() {
   if (inputText.value.length == 0) {
   } else {
@@ -87,6 +93,11 @@ function saveTask() {
   }
 }
 
+/**
+ * Marca una tarea como completada o incompleta según su ID.
+ *
+ * @param {number} id - El ID de la tarea a marcar.
+ */
 function completeTask(id) {
   actualIndex = findTaskById(id);
   tasks[actualIndex].complete = !tasks[actualIndex].complete;
@@ -94,6 +105,11 @@ function completeTask(id) {
   renderTasks();
 }
 
+/**
+ * Permite editar una tarea existente según su ID.
+ *
+ * @param {number} id - El ID de la tarea a editar.
+ */
 function editTask(id) {
   actualIndex = findTaskById(id);
   inputText.value = tasks[actualIndex].text;
@@ -101,6 +117,11 @@ function editTask(id) {
   inputText.focus();
 }
 
+/**
+ * Elimina una tarea de la lista según su ID.
+ *
+ * @param {number} id - El ID de la tarea a eliminar.
+ */
 function deleteTask(id) {
   actualIndex = findTaskById(id);
   tasks.splice(actualIndex, 1);
@@ -108,6 +129,11 @@ function deleteTask(id) {
   renderTasks();
 }
 
+/**
+ * Renderiza las tareas en la interfaz de usuario.
+ * Limpia el contenido del elemento `tasksBody` y luego agrega las filas de tabla correspondientes a cada tarea.
+ * Si no hay tareas, se muestra un mensaje motivacional en su lugar.
+ */
 function renderTasks() {
   tasksBody.innerHTML = "";
   if (tasks.length != 0) {
@@ -160,15 +186,32 @@ function renderTasks() {
   }
 }
 
+/**
+ * Verifica si existe una tarea con el texto especificado en la lista de tareas.
+ *
+ * @param {string} text - El texto de la tarea a buscar.
+ * @returns {boolean} - `true` si se encuentra una tarea con el texto especificado, de lo contrario, `false`.
+ */
 function existTaskByText(text) {
   const findTask = tasks.find((task) => task.text === text);
   return !(findTask === undefined);
 }
 
+/**
+ * Busca una tarea por su ID en la lista de tareas y devuelve el índice de la tarea encontrada.
+ *
+ * @param {number} id - El ID de la tarea a buscar.
+ * @returns {number} - El índice de la tarea encontrada en la lista, o -1 si no se encuentra.
+ */
 function findTaskById(id) {
   return tasks.findIndex((task) => task.id === parseInt(id));
 }
 
+/**
+ * Guarda los datos de la lista de tareas en el almacenamiento local.
+ * Ordena las tareas por orden alfabético ascendente antes de guardar.
+ * Deshabilita el botón btnSaveTask y establece el foco en el campo de entrada inputText.
+ */
 function saveData() {
   orderByTaskAsc();
   localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -176,17 +219,29 @@ function saveData() {
   inputText.focus();
 }
 
+/**
+ * Carga los datos de la lista de tareas desde el almacenamiento local.
+ * Si no hay datos guardados, se asigna una lista vacía al arreglo tasks.
+ * Obtiene el tema actual del almacenamiento local y aplica el tema correspondiente.
+ */
 function loadData() {
   tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
   let actualTheme = localStorage.getItem("theme") || "light";
   actualTheme === "light" ? lightTheme() : darkTheme();
 }
 
+/**
+ * Limpia el campo de entrada inputText.
+ * Restablece el valor del campo a una cadena vacía y establece la variable editing en falso.
+ */
 function cleanInput() {
   inputText.value = "";
   editing = false;
 }
 
+/**
+ * Ordena las tareas en orden alfabético ascendente según su texto.
+ */
 function orderByTaskAsc() {
   tasks.sort((a, b) => {
     if (a.text < b.text) {
@@ -199,6 +254,12 @@ function orderByTaskAsc() {
   });
 }
 
+/**
+ * Crea y muestra un mensaje de notificación (toast) en la interfaz de usuario.
+ *
+ * @param {string} titulo - El título del toast.
+ * @param {string} mensaje - El contenido del mensaje del toast.
+ */
 const createToast = (titulo, mensaje) => {
   // Crear el elemento HTML del toast
   const toastElement = document.createElement("div");
@@ -232,18 +293,43 @@ const createToast = (titulo, mensaje) => {
   }, 5000);
 };
 
+/**
+ * Genera un número aleatorio entre dos valores dados, ambos inclusivos.
+ *
+ * @param {number} minValue - El valor mínimo del rango.
+ * @param {number} maxValue - El valor máximo del rango.
+ * @returns {number} - Un número aleatorio entre el valor mínimo y máximo, ambos inclusivos.
+ */
 const randomNumberBetween = (minValue, maxValue) => {
   return Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
 };
 
+/**
+ * Aplica el tema oscuro a la interfaz de usuario.
+ * Establece el atributo "data-bs-theme" del elemento body en "dark".
+ * Actualiza la clase del icono de cambio de tema a "bi bi-sun-fill".
+ */
 const darkTheme = () => {
   document.querySelector("body").setAttribute("data-bs-theme", "dark");
   document.querySelector("#dl-icon").setAttribute("class", "bi bi-sun-fill");
 };
+
+/**
+ * Aplica el tema claro a la interfaz de usuario.
+ * Establece el atributo "data-bs-theme" del elemento body en "light".
+ * Actualiza la clase del icono de cambio de tema a "bi bi-moon-fill".
+ */
 const lightTheme = () => {
   document.querySelector("body").setAttribute("data-bs-theme", "light");
   document.querySelector("#dl-icon").setAttribute("class", "bi bi-moon-fill");
 };
+
+/**
+ * Cambia entre el tema oscuro y el tema claro en la interfaz de usuario.
+ * Si el tema actual es "light", se aplica el tema oscuro llamando a la función darkTheme().
+ * Si el tema actual es "dark", se aplica el tema claro llamando a la función lightTheme().
+ * Se guarda el tema actual en el almacenamiento local.
+ */
 const changeTheme = () => {
   document.querySelector("body").getAttribute("data-bs-theme") === "light"
     ? darkTheme()
